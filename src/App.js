@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import HeroSection from './Components/HeroSection/HeroSection';
+import MoviesList from './Components/MoviesList/MoviesList';
+import Navbar from './Components/Navbar/Navbar';
+import './index.css';
+import { useState, useEffect  } from 'react';
+
 
 function App() {
+  
+  const [post, setPost] = useState();
+
+  useEffect(() => {
+    axios.get("https://ghibliapi.vercel.app/films").then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+  console.log("post",post)
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <HeroSection />
+      <div style={{display:"flex"}}>
+      {post&&post.map(n=><MoviesList key={n.id} title={n.title} image={n.image} original_title={n.original_title} />)}</div>
     </div>
   );
 }
+
 
 export default App;
