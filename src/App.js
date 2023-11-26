@@ -9,6 +9,7 @@ import { useState, useEffect  } from 'react';
 function App() {
   
   const [post, setPost] = useState();
+  const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
     axios.get("https://ghibliapi.vercel.app/films").then((response) => {
@@ -16,13 +17,14 @@ function App() {
     });
   }, []);
   console.log("post",post)
+  console.log("cartData",cartData)
   
   return (
     <div className="App">
-      <Navbar />
+      <Navbar cartData={cartData}/>
       <HeroSection />
-      <div style={{display:"flex"}}>
-      {post&&post.map(n=><MoviesList key={n.id} title={n.title} image={n.image} original_title={n.original_title} />)}</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:15}}>
+      {post&&post.map(n=><MoviesList setCartData={setCartData} id={n.id} key={n.id} title={n.title} image={n.image} original_title={n.original_title} />)}</div>
     </div>
   );
 }

@@ -57,7 +57,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({cartData}) {
+  const [openNotifications,setOpenNotifications] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -134,7 +135,7 @@ export default function Navbar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={cartData.length} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -185,8 +186,24 @@ return (
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge onClick={e=>{
+                e.stopPropagation()
+                setOpenNotifications(n=>!n)
+              }} style={{position:"relative"}} badgeContent={cartData.length} color="error">
                 <NotificationsIcon />
+                {openNotifications&&
+                  <div style={{position:"absolute",top:50,right:0,backgroundColor:"grey",aspectRatio:1/1}}>
+                  {cartData.map(n=>
+                  <div>
+                    <img width={30} height={50} src={n.image}></img>
+                    <div>{n.title}</div>
+                    <div>{n.original_title}</div>
+                  </div>
+                  )}
+
+                </div>
+                }
+                  
               </Badge>
             </IconButton>
             <IconButton

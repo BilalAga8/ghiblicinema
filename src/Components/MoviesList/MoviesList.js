@@ -5,13 +5,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
-export default function MoviesList({title , original_title ,image}) {
+export default function MoviesList({title,id , original_title ,image,setCartData}) {
+  const addMovieToCart = ()=>{
+    setCartData(n=>[...n,{id,title,original_title,image}])
+  }
   return (
       <Card style={{width : "fit-content"}}>
         <CardActionArea>
           <CardMedia
             component="img"
-            height="180"
+            // height="180"
             image={image}
             alt="green iguana"
           />
@@ -25,8 +28,8 @@ export default function MoviesList({title , original_title ,image}) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Share
+          <Button onClick={addMovieToCart} size="small" color="primary">
+            Favourits
           </Button>
         </CardActions>
       </Card>
